@@ -1,0 +1,40 @@
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include "utils/Utils.h"
+#include "entities/Game.h"
+
+Game *game = nullptr;
+
+int main(int argc, char **argv) {
+
+
+    const int FPS = 60;
+    const int frameDelay = 1000 / FPS;
+
+    Uint32  frameStart;
+    int frameTime;
+
+    game = new Game();
+    game->Init("SPACE INVADERS //By Bellil",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,Utils::WIDTH,Utils::HEIGHT,false);
+
+    while (game->running()){
+
+        frameStart = SDL_GetTicks();
+
+        game->HandleEvents();
+        game->Update();
+        game->Render();
+
+        frameTime = SDL_GetTicks() - frameStart;
+
+        if (frameDelay > frameTime){
+            SDL_Delay(frameDelay - frameTime);
+        }
+
+    }
+
+    game->Clean();
+
+    return 0;
+}
